@@ -5,45 +5,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Three.js Example</title>
     <style>
-        body { margin: 0; }
-        canvas { display: block; }
+        /* Estilos básicos para hacer que la página sea más estética */
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0; /* Fondo gris claro */
+        }
+        h1 {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #333;
+            font-size: 24px;
+        }
+        p {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #555;
+            font-size: 18px;
+        }
+        canvas {
+            display: block;
+        }
     </style>
 </head>
 <body>
 
+<h1>Three.js Shapes Demo</h1>
+<p>Juan Carvajal</p>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
-    // Variables básicas para la escena
+    // Crear la escena, la cámara y el renderer
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer();
-
-    // Configurar el tamaño del renderer
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
 
-    // Crear un cubo con un nuevo color
+    // Añadir luces para resaltar los objetos
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.5); // Luz suave
+    scene.add(ambientLight);
+
+    const pointLight = new THREE.PointLight(0xffffff, 1); // Luz directa que ilumina mejor la esfera
+    pointLight.position.set(5, 5, 5);
+    scene.add(pointLight);
+
+    // Geometrías y materiales
     const geometryCube = new THREE.BoxGeometry();
-    const materialCube = new THREE.MeshBasicMaterial({ color: 0xffa500 }); // Cambiado a color naranja
+    const materialCube = new THREE.MeshPhongMaterial({ color: 0xffa500 }); // Material Phong para efectos de luz
     const cube = new THREE.Mesh(geometryCube, materialCube);
     scene.add(cube);
 
-    // Crear una esfera con un tamaño más grande
-    const geometrySphere = new THREE.SphereGeometry(1.5, 64, 64); // Aumentada la escala de la esfera
-    const materialSphere = new THREE.MeshBasicMaterial({ color: 0x1e90ff }); // Cambiado a color azul
+    const geometrySphere = new THREE.SphereGeometry(1.5, 64, 64); // Esfera grande y detallada
+    const materialSphere = new THREE.MeshPhongMaterial({ color: 0x1e90ff }); // Material Phong con color azul
     const sphere = new THREE.Mesh(geometrySphere, materialSphere);
-    sphere.position.x = 3; // Mover la esfera a la derecha del cubo
+    sphere.position.x = 3;
     scene.add(sphere);
 
-    // Crear un toro (dona) con un nuevo color
-    const geometryTorus = new THREE.TorusGeometry(1, 0.3, 32, 100); // Aumentados los segmentos para mayor suavidad
-    const materialTorus = new THREE.MeshBasicMaterial({ color: 0x32cd32 }); // Cambiado a color verde lima
+    const geometryTorus = new THREE.TorusGeometry(1, 0.3, 32, 100); // Toro con más detalles
+    const materialTorus = new THREE.MeshPhongMaterial({ color: 0x32cd32 });
     const torus = new THREE.Mesh(geometryTorus, materialTorus);
-    torus.position.x = -3; // Mover el toro a la izquierda del cubo
+    torus.position.x = -3;
     scene.add(torus);
 
-    // Posicionar la cámara más lejos para mejorar la perspectiva
-    camera.position.z = 8; // Mover la cámara más lejos para que se vea mejor la esfera
+    // Posicionar la cámara
+    camera.position.z = 8;
 
     // Función de animación
     function animate() {
@@ -70,7 +101,8 @@
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
     });
-
 </script>
+
 </body>
 </html>
+
