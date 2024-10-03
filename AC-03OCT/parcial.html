@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ejemplo Three.js - Cubos Aleatorios</title>
+  <title>Ejemplo Three.js - Cubos Blancos Centrados</title>
   <style>
     body { margin: 0; }
     canvas { display: block; }
@@ -43,26 +43,22 @@
     function crearCubo() {
       const geometriaCubo = new THREE.BoxGeometry(1, 1, 1);
       const materialCubo = new THREE.MeshBasicMaterial({
-        color: Math.random() * 0xffffff,
+        color: 0xffffff, // Color blanco
         wireframe: true
       });
 
       const cubo = new THREE.Mesh(geometriaCubo, materialCubo);
-      
-      // Posicionamos el cubo en coordenadas aleatorias
-      cubo.position.x = (Math.random() - 0.5) * 10;
-      cubo.position.y = (Math.random() - 0.5) * 10;
-      cubo.position.z = (Math.random() - 0.5) * 10;
-
-      cubes.push(cubo); // Agregar el cubo al array
       return cubo;
     }
 
-    // Crear entre 1 y 5 cubos aleatorios
-    const numeroObjetos = Math.floor(Math.random() * 5) + 1; // Número aleatorio entre 1 y 5
+    // Crear y centrar los cubos
+    const numeroObjetos = 5; // Número fijo de cubos alineados
+    const separacion = 2; // Distancia entre cubos
     for (let i = 0; i < numeroObjetos; i++) {
       const cubo = crearCubo();
+      cubo.position.x = (i - (numeroObjetos - 1) / 2) * separacion; // Centrar los cubos
       escena.add(cubo);
+      cubes.push(cubo); // Agregar el cubo al array
     }
 
     // Añadir controles de órbita
